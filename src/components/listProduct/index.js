@@ -3,10 +3,13 @@ import styled from 'styled-components';
 
 
 const List = styled.div`
+  color: ${props => props.theme.color};
   width: 100%;
   height: auto;
-  padding: 30px 10px;
-  background-color: #ffffe4;
+  padding: 30px 0px;
+  background-color: ${props => props.theme.bgBar};
+  border:${props => `2px  ${props.theme.border} solid` } ;
+  border-top: none;
 
   .productIten {
     display: flex;
@@ -17,18 +20,20 @@ const List = styled.div`
     padding: 5px 15px;
     justify-content: space-between;
     align-items: center;
+    border:${props => `2px  ${props.theme.border} solid` } ;
 
     button {
       width: auto;
       height: 30px;
       background: transparent;
-      border: 2px black solid;
+      border: ${props => `2px ${props.theme.border} solid` } ;
       cursor: pointer;
+      color: ${props => props.theme.color};
     }
   }
 `
 
-const ListProduct = ( {AddToCar} ) =>{
+const ListProduct = ( {AddToCar, theme} ) =>{
 
   const [products, setProducts] = useState(
     [

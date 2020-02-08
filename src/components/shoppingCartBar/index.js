@@ -2,20 +2,21 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Bar = styled.div`
+  color: ${props => props.theme.color};
   width: 100%;
   height: 80px;
-  background:#f15d5d;
+  background:${props => props.theme.bgBar};
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 3px solid black;
-
+  border:${props => `2px  ${props.theme.border} solid` } ;
 
   .CarStatus {
-    background: white;
-    width: 30px;
+    background:${props => props.theme.bgBar};
+    padding: 3px 15px;
+    width: auto;
     height: 30px;
-    border: 3px solid black;
+    border:${props => `2px  ${props.theme.border} solid` } ;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,10 +24,11 @@ const Bar = styled.div`
 `
 
 const shoppingCartBar = ( {shoppingCar} ) => {
+  console.log(shoppingCar.theme.background)
   return (
     <Bar>
       <div className="CarStatus">
-        <p>{shoppingCar.totalValue} {shoppingCar.qtd}</p>
+        <p>Qtd: {shoppingCar.totalValue} Total: R$ {shoppingCar.qtd}</p>
       </div>
     </Bar>
   )

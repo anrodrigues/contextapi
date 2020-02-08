@@ -1,62 +1,53 @@
 import React, { useState, useEffect} from 'react';
-import TodoList from './components/TodoList/index'
-import ThemeSwitcher from './components/ThemeSwitcher/index'
 import { ThemeProvider } from 'styled-components';
 import * as themes from './Themes/index'
-import ThemeContext  from './Themes/context'
-import ShoppingCartContext from './components/shoppingCart/context';
-import Bar from './components/shoppingCartBar/index'
-import ListProduct from './components/listProduct/index'
-
+import ShoppingCartContext from './components/shoppingCartBar/context';
+import Bar from './components/shoppingCartBar/index';
+import ListProduct from './components/listProduct/index';
+import SwitchTheme from './components/switcherTheme/index';
 export default function App() { 
 
-  const [theme, setTheme] = useState(themes.dark)  
 
   const [shoppingCar, setShoppingCar] = useState({
     totalValue: 0,
-    qtd : 0
+    qtd : 0,
+    theme: themes.dark
   })  
-
-  
-  const toggleTheme = () => {
-    setTheme(theme === themes.dark ? themes.light: themes.dark)
-  };
 
   const AddToCar = (value) => {
     setShoppingCar( {
       totalValue: shoppingCar.totalValue + 1,
-      qtd:  shoppingCar.qtd + value
+      qtd:  shoppingCar.qtd + value,
+      theme: shoppingCar.theme
+    })
+  }
+
+  const switchTheme = (value) => {
+    setShoppingCar( {
+      totalValue: shoppingCar.totalValue,
+      qtd:  shoppingCar.qtd,
+      theme: shoppingCar.theme === themes.dark ? themes.light: themes.dark
     })
   }
 
   useEffect(() => {
-    console.log(theme)
-  }, [theme])
+    console.log(shoppingCar.theme)
+  }, [shoppingCar.theme])
 
   return (
     <>
 
     <ShoppingCartContext.Provider value={shoppingCar} >
       <ShoppingCartContext.Consumer>
-        { shoppingCar => <Bar shoppingCar={shoppingCar}/>}
+        { shoppingCar =>(
+          <ThemeProvider theme={shoppingCar.theme}>
+            <Bar shoppingCar={shoppingCar}/>
+            <ListProduct theme={shoppingCar.theme} AddToCar={AddToCar}/>
+          </ThemeProvider> 
+        )}
       </ShoppingCartContext.Consumer>
-      
-      <ListProduct AddToCar={AddToCar}/>
-
+      <SwitchTheme switchTheme={switchTheme}/>
     </ShoppingCartContext.Provider>
-    
-    <ThemeContext.Provider value={theme}>
-      <ThemeSwitcher toggleTheme={toggleTheme}/>
-      <ThemeContext.Consumer>
-        { theme =>(
-          <ThemeProvider theme={theme}>
-            <TodoList />
-          </ThemeProvider>
-          )
-        }
-      </ThemeContext.Consumer>
-     </ThemeContext.Provider>
-
     </>
   );
 }

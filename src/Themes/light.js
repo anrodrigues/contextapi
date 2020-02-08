@@ -1,4 +1,7 @@
 export default {
-  background: '#e4e4e4',
-  color: '#333'
+  bgBar: '#FFF',
+  bgList: `#FFF`,
+  bgListIten: `#FFF`,
+  border: `#000`,
+  color: '#000',
 }
